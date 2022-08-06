@@ -31,21 +31,43 @@ fn main()
             if letter == '.' 
             {
                 println!("dot");
+                // wave_table.push(1.0);
+                // wave_table.push(2.0);
+                // wave_table.push(1.0);
+                // wave_table.push(0.0);
             }
             else
             {
                 println!("line");
+                // wave_table.push(1.0);
+                // wave_table.push(2.0);
+                // wave_table.push(1.0);
+                // wave_table.push(2.0);
+                // wave_table.push(1.0);
+                // wave_table.push(0.0);
             }
         }
     }
 
-    for n in 0..wave_table_size {
-        wave_table.push((2.0 * std::f32::consts::PI * n as f32 / wave_table_size as f32).sin());
+    // for n in 0..wave_table_size {
+    //     wave_table.push((2.0 * std::f32::consts::PI * n as f32 / wave_table_size as f32).sin());
+    // }
+
+    for n in 0..wave_table_size / 4 {
+        wave_table.push(0.0);
+        wave_table.push(100.0);
+        wave_table.push(0.0);
+        wave_table.push(-100.0);
+    }
+    
+    for elem in &wave_table
+    {
+        println!("{}", elem);
     }
     
     let mut osc = oscillator::WavetableOscillator::new(48000, wave_table);
 
-    osc.set_frequency(880.0);
+    osc.set_frequency(220.0);
     
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
     
