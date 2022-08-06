@@ -3,7 +3,7 @@ use morse::encode;
 use std::time::Duration;
 use std::fs::File;
 use std::io::BufReader;
-use rodio::{Decoder, OutputStream, Source};
+use rodio::{Decoder, OutputStream, Source, source::SineWave, cpal::SampleRate};
 
 fn main() 
 {
@@ -16,16 +16,15 @@ fn main()
     {
         let morse_code: String = encode::encode(word).unwrap();
         println!("{}", morse_code);
+
+        // Slice by letter and create audio data based on '.' or '-' to play in the end
+
     }
 
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
-   
-    let file = BufReader::new(File::open("sound/sine.ogg").unwrap());
+    let mut sine = SineWave::new(880.0);  
+    let _result = stream_handle.play_raw(sine.convert_samples());
 
-    let source = Decoder::new(file).unwrap();
-
-    stream_handle.play_raw(source.convert_samples());
-
-    std::thread::sleep(std::time::Duration::from_secs(5));
+    std::thread::sleep(std::time::Duration::from_secs(1));
 }
 
